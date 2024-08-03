@@ -58,7 +58,7 @@ export default function InventoryPage() {
   const updateInventory = async () => {
     const snapshot = query(collection(firestore, "inventory"));
     const docs = await getDocs(snapshot);
-    const inventoryList: InventoryItem[] = [];
+    const inventoryList: InventoryItem[] = []; // Explicitly type the inventoryList variable
     docs.forEach((doc) => {
       const data = doc.data();
       inventoryList.push({ name: doc.id, quantity: data.quantity });
