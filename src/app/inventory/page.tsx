@@ -8,6 +8,8 @@ import {
   Button,
   Modal,
   TextField,
+  AppBar,
+  Toolbar,
 } from "@mui/material";
 import { firestore } from "@/app/firebase";
 import {
@@ -101,16 +103,21 @@ export default function InventoryPage() {
   }, []);
 
   return (
-    <Box bgcolor={"#7ebdc2"}>
+    <Box bgcolor={"#000000"} height="100vh">
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6">Pantry Tracker App</Typography>
+        </Toolbar>
+      </AppBar>
       <Box
-        bgcolor={"white"}
-        height="100vh"
+        bgcolor={"#6B6D76"}
+        height="calc(100vh - 64px)"
         display={"flex"}
-        marginX={"5vw"}
         justifyContent={"center"}
         flexDirection={"column"}
         alignItems={"center"}
         gap={2}
+        padding={2}
       >
         <Modal
           open={open}
@@ -182,8 +189,10 @@ export default function InventoryPage() {
           Add New Item
         </Button>
         <Box
+          bgcolor={"white"}
           border={"1px solid #333"}
-          padding={2}
+          borderRadius={3}
+          padding={4}
           width="60vw"
           style={{ resize: "both", overflow: "auto" }}
         >
