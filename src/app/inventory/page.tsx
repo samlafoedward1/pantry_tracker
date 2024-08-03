@@ -23,6 +23,12 @@ import {
 } from "firebase/firestore";
 import Search from "../search";
 
+// Define an interface for the inventory items
+interface InventoryItem {
+  name: string;
+  quantity: number;
+}
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -39,20 +45,23 @@ const style = {
 };
 
 export default function InventoryPage() {
-  const [inventory, setInventory] = useState([]);
-  const [filteredInventory, setFilteredInventory] = useState([]);
+  const [inventory, setInventory] = useState<InventoryItem[]>([]);
+  const [filteredInventory, setFilteredInventory] = useState<InventoryItem[]>(
+    []
+  );
   const [open, setOpen] = useState(false);
   const [updateOpen, setUpdateOpen] = useState(false);
-  const [itemName, setItemName] = useState("");
-  const [updateItemName, setUpdateItemName] = useState("");
-  const [updateItemQuantity, setUpdateItemQuantity] = useState(0);
+  const [itemName, setItemName] = useState<string>("");
+  const [updateItemName, setUpdateItemName] = useState<string>("");
+  const [updateItemQuantity, setUpdateItemQuantity] = useState<number>(0);
 
   const updateInventory = async () => {
     const snapshot = query(collection(firestore, "inventory"));
     const docs = await getDocs(snapshot);
-    const inventoryList = [];
+    const inventoryList: InventoryItem[] = [];
     docs.forEach((doc) => {
-      inventoryList.push({ name: doc.id, ...doc.data() });
+      const data = doc.data();
+      inventoryList.push({ name: doc.id, quantity: data.quantity });
     });
     setInventory(inventoryList);
     setFilteredInventory(inventoryList);
@@ -62,7 +71,7 @@ export default function InventoryPage() {
     updateInventory();
   }, []);
 
-  const addItem = async (item) => {
+  const addItem = async (item: string) => {
     const normalizedItemName = item.toLowerCase();
     const docRef = doc(collection(firestore, "inventory"), normalizedItemName);
     const docSnap = await getDoc(docRef);
@@ -75,14 +84,14 @@ export default function InventoryPage() {
     await updateInventory();
   };
 
-  const removeItem = async (item) => {
+  const removeItem = async (item: string) => {
     const normalizedItemName = item.toLowerCase();
     const docRef = doc(collection(firestore, "inventory"), normalizedItemName);
     await deleteDoc(docRef);
     await updateInventory();
   };
 
-  const handleUpdateItem = async (item, quantity) => {
+  const handleUpdateItem = async (item: string, quantity: number) => {
     const normalizedItemName = item.toLowerCase();
     const docRef = doc(collection(firestore, "inventory"), normalizedItemName);
     await setDoc(docRef, { quantity });
@@ -91,14 +100,14 @@ export default function InventoryPage() {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const handleUpdateOpen = (item) => {
+  const handleUpdateOpen = (item: InventoryItem) => {
     setUpdateItemName(item.name);
     setUpdateItemQuantity(item.quantity);
     setUpdateOpen(true);
   };
   const handleUpdateClose = () => setUpdateOpen(false);
 
-  const handleSearch = useCallback((filteredItems) => {
+  const handleSearch = useCallback((filteredItems: InventoryItem[]) => {
     setFilteredInventory(filteredItems);
   }, []);
 
