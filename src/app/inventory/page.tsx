@@ -101,131 +101,139 @@ export default function InventoryPage() {
   }, []);
 
   return (
-    <Box
-      width="100vw"
-      height="100vh"
-      display={"flex"}
-      justifyContent={"center"}
-      flexDirection={"column"}
-      alignItems={"center"}
-      gap={2}
-    >
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+    <Box bgcolor={"#7ebdc2"}>
+      <Box
+        bgcolor={"white"}
+        height="100vh"
+        display={"flex"}
+        marginX={"5vw"}
+        justifyContent={"center"}
+        flexDirection={"column"}
+        alignItems={"center"}
+        gap={2}
       >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Add Item
-          </Typography>
-          <Stack width="100%" direction={"row"} spacing={2}>
-            <TextField
-              id="outlined-basic"
-              label="Item"
-              variant="outlined"
-              fullWidth
-              value={itemName}
-              onChange={(e) => setItemName(e.target.value)}
-            />
-            <Button
-              variant="outlined"
-              onClick={() => {
-                addItem(itemName);
-                setItemName("");
-                handleClose();
-              }}
-            >
-              Add
-            </Button>
-          </Stack>
-        </Box>
-      </Modal>
-
-      <Modal
-        open={updateOpen}
-        onClose={handleUpdateClose}
-        aria-labelledby="update-modal-title"
-        aria-describedby="update-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="update-modal-title" variant="h6" component="h2">
-            Update Item Quantity
-          </Typography>
-          <Stack width="100%" direction={"row"} spacing={2}>
-            <TextField
-              id="outlined-basic"
-              label="Quantity"
-              variant="outlined"
-              fullWidth
-              type="number"
-              value={updateItemQuantity}
-              onChange={(e) => setUpdateItemQuantity(Number(e.target.value))}
-            />
-            <Button
-              variant="outlined"
-              onClick={() => {
-                handleUpdateItem(updateItemName, updateItemQuantity);
-                handleUpdateClose();
-              }}
-            >
-              Update
-            </Button>
-          </Stack>
-        </Box>
-      </Modal>
-
-      <Button variant="contained" onClick={handleOpen}>
-        Add New Item
-      </Button>
-      <Box border={"1px solid #333"} padding={2} width="800px">
-        <Box
-          width="100%"
-          height="100px"
-          bgcolor={"#ADD8E6"}
-          display={"flex"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          marginBottom={2}
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
         >
-          <Typography variant={"h2"} color={"#333"} textAlign={"center"}>
-            Inventory Items
-          </Typography>
-        </Box>
-        <Search items={inventory} onSearch={handleSearch} />
-        <Stack width="100%" spacing={2} overflow={"auto"} marginTop={2}>
-          {filteredInventory.map(({ name, quantity }) => (
-            <Box
-              key={name}
-              width="100%"
-              minHeight="150px"
-              display={"flex"}
-              justifyContent={"space-between"}
-              alignItems={"center"}
-              bgcolor={"#f0f0f0"}
-              paddingX={5}
-            >
-              <Typography variant={"h3"} color={"#333"} textAlign={"center"}>
-                {name.charAt(0).toUpperCase() + name.slice(1)}
-              </Typography>
-              <Typography variant={"h3"} color={"#333"} textAlign={"center"}>
-                Quantity: {quantity}
-              </Typography>
-              <Box display="flex" flexDirection="column" gap={1}>
-                <Button variant="contained" onClick={() => removeItem(name)}>
-                  Remove
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={() => handleUpdateOpen({ name, quantity })}
-                >
-                  Update
-                </Button>
+          <Box sx={style}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Add Item
+            </Typography>
+            <Stack width="100%" direction={"row"} spacing={2}>
+              <TextField
+                id="outlined-basic"
+                label="Item"
+                variant="outlined"
+                fullWidth
+                value={itemName}
+                onChange={(e) => setItemName(e.target.value)}
+              />
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  addItem(itemName);
+                  setItemName("");
+                  handleClose();
+                }}
+              >
+                Add
+              </Button>
+            </Stack>
+          </Box>
+        </Modal>
+
+        <Modal
+          open={updateOpen}
+          onClose={handleUpdateClose}
+          aria-labelledby="update-modal-title"
+          aria-describedby="update-modal-description"
+        >
+          <Box sx={style}>
+            <Typography id="update-modal-title" variant="h6" component="h2">
+              Update Item Quantity
+            </Typography>
+            <Stack width="100%" direction={"row"} spacing={2}>
+              <TextField
+                id="outlined-basic"
+                label="Quantity"
+                variant="outlined"
+                fullWidth
+                type="number"
+                value={updateItemQuantity}
+                onChange={(e) => setUpdateItemQuantity(Number(e.target.value))}
+              />
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  handleUpdateItem(updateItemName, updateItemQuantity);
+                  handleUpdateClose();
+                }}
+              >
+                Update
+              </Button>
+            </Stack>
+          </Box>
+        </Modal>
+
+        <Button variant="contained" onClick={handleOpen}>
+          Add New Item
+        </Button>
+        <Box
+          border={"1px solid #333"}
+          padding={2}
+          width="60vw"
+          style={{ resize: "both", overflow: "auto" }}
+        >
+          <Box
+            width="100%"
+            height="100px"
+            bgcolor={"#ADD8E6"}
+            display={"flex"}
+            justifyContent={"center"}
+            alignItems={"center"}
+            marginBottom={2}
+          >
+            <Typography variant={"h2"} color={"#333"} textAlign={"center"}>
+              Inventory Items
+            </Typography>
+          </Box>
+          <Search items={inventory} onSearch={handleSearch} />
+          <Stack width="100%" spacing={2} overflow={"auto"} marginTop={2}>
+            {filteredInventory.map(({ name, quantity }) => (
+              <Box
+                key={name}
+                width="100%"
+                minHeight="150px"
+                display={"flex"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                bgcolor={"#f0f0f0"}
+                paddingX={5}
+              >
+                <Typography variant={"h3"} color={"#333"} textAlign={"center"}>
+                  {name.charAt(0).toUpperCase() + name.slice(1)}
+                </Typography>
+                <Typography variant={"h3"} color={"#333"} textAlign={"center"}>
+                  Quantity: {quantity}
+                </Typography>
+                <Box display="flex" flexDirection="column" gap={1}>
+                  <Button variant="contained" onClick={() => removeItem(name)}>
+                    Remove
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={() => handleUpdateOpen({ name, quantity })}
+                  >
+                    Update
+                  </Button>
+                </Box>
               </Box>
-            </Box>
-          ))}
-        </Stack>
+            ))}
+          </Stack>
+        </Box>
       </Box>
     </Box>
   );
